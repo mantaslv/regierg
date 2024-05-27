@@ -13,3 +13,4 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 ## Features
 - Image Upload
 - Realtime OCR
+- Data Visualisation
