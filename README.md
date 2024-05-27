@@ -6,3 +6,5 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 ## Objectives
 1. Capture Erg Screen Data
 2. OCR Processing
+3. Data Storage
+4. Incremental Learning
