@@ -8,3 +8,4 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 2. OCR Processing
 3. Data Storage
 4. Incremental Learning
+5. User Interface
