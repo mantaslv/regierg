@@ -11,3 +11,4 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 5. User Interface
 
 ## Features
+- Image Upload
