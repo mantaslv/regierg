@@ -15,3 +15,4 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 - Realtime OCR
 - Data Visualisation
 - Custom Model Training
+- Cloud Storage Integration
