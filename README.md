@@ -23,3 +23,4 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 - **Database**: MongoDB for storing metadata
 - **Cloud Storage**: Azure Blob Storage for storing images
 - **OCR**: Azure Vision API for initial OCR and Custom Vision for model training
+- **Mobile App**: Planned future integration for direct photo capture and processing
