@@ -20,3 +20,4 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 # Technologies
 - **Web Frontend**: React (regimate-frontend)
 - **Backend**: Python
+- **Database**: MongoDB for storing metadata
