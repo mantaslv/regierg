@@ -4,7 +4,7 @@
 The RegiErg App aims to provide a comprehensive solution for capturing, processing, and analysing erg screen data from Concept2 rowing machines.The app will use advanced OCR capabilities to extract performance data and store it for tracking and analysis.
 
 ## Objectives
-1. Capture Erg Screen Data
+1. **Capture Erg Screen Data**: Enable users to upload photos of erg screens or capture them directly via a mobile app.
 2. OCR Processing
 3. Data Storage
 4. Incremental Learning
