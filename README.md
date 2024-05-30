@@ -18,4 +18,5 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 - Cloud Storage Integration
 
 # Technologies
-- •• Web Frontend••: React (regimate-frontend)
+- **Web Frontend**: React (regimate-frontend)
+- **Backend**: Python
