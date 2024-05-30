@@ -21,3 +21,4 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 - **Web Frontend**: React (regimate-frontend)
 - **Backend**: Python
 - **Database**: MongoDB for storing metadata
+- **Cloud Storage**: Azure Blob Storage for storing images
