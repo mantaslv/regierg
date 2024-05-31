@@ -5,7 +5,7 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 
 ## Objectives
 1. **Capture Erg Screen Data**: Enable users to upload photos of erg screens or capture them directly via a mobile app.
-2. OCR Processing
+2. **OCR Processing**: Use Azure Vision API to recognize and extract text data from the erg screen images.
 3. Data Storage
 4. Incremental Learning
 5. User Interface
