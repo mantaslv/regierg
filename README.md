@@ -15,7 +15,7 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 - **Real-time OCR**: Process uploaded images in real-time to extract performance metrics.
 - **Data Visualisation**: Display extracted data and performance trends through intuitive charts and graphs.
 - **Custom Model Training**: Continuously train and improve a custom OCR model with user-provided data.
-- Cloud Storage Integration
+- **Cloud Storage Integration**: Efficiently store images and data in cloud storage for scalability and reliability.
 
 # Technologies
 - **Web Frontend**: React (regimate-frontend)
