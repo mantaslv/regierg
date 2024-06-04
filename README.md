@@ -12,7 +12,7 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 
 ## Features
 - **Image Upload**: Users can upload erg screen images via the web or mobile app.
-- Realtime OCR
+- **Real-time OCR**: Process uploaded images in real-time to extract performance metrics.
 - Data Visualisation
 - Custom Model Training
 - Cloud Storage Integration
