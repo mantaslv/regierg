@@ -8,7 +8,7 @@ The RegiErg App aims to provide a comprehensive solution for capturing, processi
 2. **OCR Processing**: Use Azure Vision API to recognize and extract text data from the erg screen images.
 3. **Data Storage**: Save the extracted data and images to cloud storage (e.g., Azure Blob Storage) and metadata in a database (e.g., MongoDB).
 4. **Incremental Learning**: Train a custom model using Azure Custom Vision with confirmed data to improve accuracy over time.
-5. User Interface
+5. **User Interface**: Develop a web and mobile interface for users to upload images, view processed data, and track performance over time.
 
 ## Features
 - Image Upload
