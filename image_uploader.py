@@ -14,13 +14,12 @@ try:
     
     container_client = blob_service_client.get_container_client('ergscreens')
     
-    blobs = container_client.list_blobs()
-    blobs_list = list(blobs)
+    file_path = "sample_erg_screen.jpeg"
+    image_name = "sample_erg_18_04_24.jpg"
     
-    if blobs_list is not None:
-        print("Connection successful, able to access container and list blobs.")
-    else:
-        print("Connection successful, but no blobs found in the container.")
+    with open(file_path, "rb") as data:
+        container_client.upload_blob(name=image_name, data=data)
+        print(f"Image '{image_name}' uploaded successfully.")
 
 except Exception as e:
     print(f"An error occurred: {e}")
