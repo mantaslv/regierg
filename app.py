@@ -9,6 +9,7 @@ class ErgSession:
 		self.session_name = None
 		self.total_time = None
 		self.row_time = None
+		self.meters = None
 	
 	def to_json(self):
 		return json.dumps({
@@ -17,6 +18,7 @@ class ErgSession:
 			"session_name": self.session_name,
 			"total_time": self.total_time.strftime('%H:%M:%S.%f'),
 			"row_time": self.row_time.strftime('%H:%M:%S.%f'),
+			"meters": self.meters,
 		}, indent=4)
     
 def parse_erg_data(data):
@@ -34,7 +36,8 @@ def parse_erg_data(data):
 			session.total_time = string_to_time(time_str)
 		elif 'time meter' in item:
 			time_str = data[index + 2]
-			session.row_time = string_to_time(time_str) 
+			session.row_time = string_to_time(time_str)
+			session.meters = data[index + 3]
 			
 	return session
 
