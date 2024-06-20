@@ -10,6 +10,18 @@ class ErgSession:
 		self.total_time = None
 		self.row_time = None
 		self.meters = None
+		self.average_split = None
+		self.average_rate = None
+		self.intervals = []
+	
+	def add_interval(self, duration, meters, split_time, stroke_rate, heart_rate=None):
+        self.intervals.append({
+            "duration": duration,
+            "meters": meters,
+            "split_time": split_time,
+            "stroke_rate": stroke_rate,
+            "heart_rate": heart_rate
+        })
 	
 	def to_json(self):
 		return json.dumps({
@@ -19,6 +31,8 @@ class ErgSession:
 			"total_time": self.total_time.strftime('%H:%M:%S.%f'),
 			"row_time": self.row_time.strftime('%H:%M:%S.%f'),
 			"meters": self.meters,
+			"average_split": self.average_split,
+			"average_rate": self.average_rate,
 		}, indent=4)
     
 def parse_erg_data(data):
@@ -38,6 +52,8 @@ def parse_erg_data(data):
 			time_str = data[index + 2]
 			session.row_time = string_to_time(time_str)
 			session.meters = data[index + 3]
+			session.average_split, session.average_rate = data[index + 4].split(' ')
+			
 			
 	return session
 
