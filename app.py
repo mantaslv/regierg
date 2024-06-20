@@ -6,21 +6,25 @@ class ErgSession:
 	def __init__(self):
 		self.monitor_model = None
 		self.date = None
+		self.session_name = None
 	
 	def to_json(self):
 		return json.dumps({
 			"monitor_model": self.monitor_model,
 			"date": self.date.strftime('%Y-%m-%d') if self.date else None,
+			"session_name": self.session_name,
 		}, indent=4)
     
 def parse_erg_data(data):
 	session = ErgSession()
 
-	for item in data:
+	for index, item in enumerate(data):
 		if 'PM' in item:
 			session.monitor_model = item
 		elif re.match(r'\w+ \d+ \d{4}', item):
 			session.date = datetime.strptime(item, '%b %d %Y')
+		elif 'View Detail' in item:
+			session.session_name = data[index + 1]
 
 	return session
 
