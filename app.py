@@ -1,13 +1,16 @@
 from datetime import datetime
 import json
+import re
 
 class ErgSession:
 	def __init__(self):
 		self.monitor_model = None
+		self.date = None
 	
 	def to_json(self):
 		return json.dumps({
-			"monitor_model": self.monitor_model
+			"monitor_model": self.monitor_model,
+			"date": self.date.strftime('%Y-%m-%d') if self.date else None,
 		}, indent=4)
     
 def parse_erg_data(data):
@@ -16,6 +19,8 @@ def parse_erg_data(data):
 	for item in data:
 		if 'PM' in item:
 			session.monitor_model = item
+		elif re.match(r'\w+ \d+ \d{4}', item):
+			session.date = datetime.strptime(item, '%b %d %Y')
 
 	return session
 
