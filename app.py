@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time
 import json
 import re
 
@@ -7,12 +7,14 @@ class ErgSession:
 		self.monitor_model = None
 		self.date = None
 		self.session_name = None
+		self.total_time = None
 	
 	def to_json(self):
 		return json.dumps({
 			"monitor_model": self.monitor_model,
 			"date": self.date.strftime('%Y-%m-%d') if self.date else None,
 			"session_name": self.session_name,
+			"total_time": self.total_time.strftime('%H:%M:%S.%f')
 		}, indent=4)
     
 def parse_erg_data(data):
@@ -25,6 +27,16 @@ def parse_erg_data(data):
 			session.date = datetime.strptime(item, '%b %d %Y')
 		elif 'View Detail' in item:
 			session.session_name = data[index + 1]
+		elif 'Total Time:' in item:
+			time_str = data[index + 2]
+			minutes, seconds = time_str.split(':')
+			seconds, milliseconds = seconds.split('.')
+			minutes = int(minutes)
+			seconds = int(seconds)
+			milliseconds = int(float('0.' + milliseconds) * 1000000)
+			t = time(hour=0, minute=minutes, second=seconds, microsecond=milliseconds)
+			session.total_time = t
+			
 
 	return session
 
