@@ -7,11 +7,11 @@ import os
 load_dotenv()
 
 key = os.getenv('AZURE_AI_KEY')
-endpoint = "https://ergocrdev.cognitiveservices.azure.com/"
+endpoint = 'https://debriefitai.cognitiveservices.azure.com/'
 
 computervision_client = ComputerVisionClient(endpoint, CognitiveServicesCredentials(key))
 
-read_response = computervision_client.read_in_stream(open("sample_erg_screen.jpeg", "rb"), raw=True)
+read_response = computervision_client.read_in_stream(open("distance_intervals.jpeg", "rb"), raw=True)
 read_operation_location = read_response.headers["Operation-Location"]
 operation_id = read_operation_location.split("/")[-1]
 
