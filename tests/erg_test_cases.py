@@ -1,6 +1,11 @@
+import datetime
+
 test_cases = [
     {
-        "input_data": ['Oconcept 2', 'PM5', 'View Detail', '5x6:00/2:00r.', 'Total Time:', 'Apr 18 2024.', '40:00.0', 'time meter', '1500m', '30:00.0', '8482.', '1:46.1 21', '6:00.0', '1627', '1:50.6 20 150', '6:00.0', '1677 1:47.3 21 161', '6:00.0', '1736', '1:43.6 23 169', '6:00.0', '1718. 1:44.7 22 171', '6:00.0', '1723 1:44.4 22 180', 'r245', 'Units', 'Display', 'Menu'],
+        "input_data": {
+			"metadata_date": datetime.datetime(2024, 4, 18, 0, 0, 0), 
+			"raw_screen_text": ['Oconcept 2', 'PM5', 'View Detail', '5x6:00/2:00r.', 'Total Time:', 'Apr 18 2024.', '40:00.0', 'time meter', '1500m', '30:00.0', '8482.', '1:46.1 21', '6:00.0', '1627', '1:50.6 20 150', '6:00.0', '1677 1:47.3 21 161', '6:00.0', '1736', '1:43.6 23 169', '6:00.0', '1718. 1:44.7 22 171', '6:00.0', '1723 1:44.4 22 180', 'r245', 'Units', 'Display', 'Menu']
+		},
         "expected_output": {
 			"monitor_model": "PM5",
 			"date": "2024-04-18",
@@ -50,8 +55,11 @@ test_cases = [
 		}
     },
     {
-        "input_data": ['Oconcept 2', 'PM4', 'ROWING', 'View Detail', '2000m', 'Dec. 17 2015', 'time meter', '1500m /m', '6:32.3', '2000 1:38.0 32', '1:14.0', '400 1:32.5 33', '1:18.7', '.800 1:38.3 31', '1:20.7', '1200 1:40.8 31', '1:21.0', '1600 1:41.2 33', '1:17.9', '2000 1:37.3 :35', 'CHANGE', 'UNITS', 'CHANGE', 'DISPLAY', 'MENU', 'BACK'],
-        "expected_output": {
+        "input_data": {
+			"metadata_date": datetime.datetime(2015, 12, 17, 0, 0, 0), 
+			"raw_screen_text": ['Oconcept 2', 'PM4', 'ROWING', 'View Detail', '2000m', 'Dec. 17 2015', 'time meter', '1500m /m', '6:32.3', '2000 1:38.0 32', '1:14.0', '400 1:32.5 33', '1:18.7', '.800 1:38.3 31', '1:20.7', '1200 1:40.8 31', '1:21.0', '1600 1:41.2 33', '1:17.9', '2000 1:37.3 :35', 'CHANGE', 'UNITS', 'CHANGE', 'DISPLAY', 'MENU', 'BACK'],
+		},
+		"expected_output": {
 			"monitor_model": "PM4",
 			"date": "2015-12-17",
 			"session_name": "2000m",
@@ -100,8 +108,11 @@ test_cases = [
 		}
     },
     {
-        "input_data": ['OKconcept 2', 'PM5', 'View Detail', '3x6000m/2:00r', 'Total Time:', 'Feb 14 2019', '1:13:23.7', 'time meter', '1500m', '1:07:23.7', '18000', '1:52.3 20', '22:29.6', '6000', '1:52.4 20', '22:28.5', '6000', '1:52.3 20', '22:25.6', '6000', '1:52.1 20', 'F108', 'Units', 'Display', 'Menu'],
-        "expected_output": {
+        "input_data": {
+			"metadata_date": datetime.datetime(2019, 2, 14, 0, 0, 0), 
+			"raw_screen_text": ['OKconcept 2', 'PM5', 'View Detail', '3x6000m/2:00r', 'Total Time:', 'Feb 14 2019', '1:13:23.7', 'time meter', '1500m', '1:07:23.7', '18000', '1:52.3 20', '22:29.6', '6000', '1:52.4 20', '22:28.5', '6000', '1:52.3 20', '22:25.6', '6000', '1:52.1 20', 'F108', 'Units', 'Display', 'Menu'],
+		},
+		"expected_output": {
 			"monitor_model": "PM5",
 			"date": "2019-02-14",
 			"session_name": "3x6000m/2:00r",
@@ -136,8 +147,11 @@ test_cases = [
 		}
     },
     {
-        "input_data": ['Iconcept 2.', 'PM4', 'diewy Detail', '15:00', 'Jan 07 2019', 'time meter 1500m', 'Pm', '15:00.0', '4292 1:44.8 20 173', '3:00.0', '849 1:46.0 20 164', '6:00.0', '854 1:45.3 20 172', '9:00.0', '851 1:45.7 20 173', '12:00.0', '855 1:45.2 20 178', '15:00.0', '882 1:42.0 21 182', 'CHANGE', 'CHANGE', 'MENU', 'UNITS', 'DISPLAY', 'BACK'],
-        "expected_output": {
+        "input_data": {
+			"metadata_date": datetime.datetime(2019, 1, 7, 0, 0, 0), 
+			"raw_screen_text": ['Iconcept 2.', 'PM4', 'diewy Detail', '15:00', 'Jan 07 2019', 'time meter 1500m', 'Pm', '15:00.0', '4292 1:44.8 20 173', '3:00.0', '849 1:46.0 20 164', '6:00.0', '854 1:45.3 20 172', '9:00.0', '851 1:45.7 20 173', '12:00.0', '855 1:45.2 20 178', '15:00.0', '882 1:42.0 21 182', 'CHANGE', 'CHANGE', 'MENU', 'UNITS', 'DISPLAY', 'BACK'],
+		},
+		"expected_output": {
 			"monitor_model": "PM4",
 			"date": "2019-01-07",
 			"session_name": "15:00",
@@ -184,5 +198,37 @@ test_cases = [
 				}
 			]
 		}
-    }
+    },
+	{
+		"input_data": {
+			"metadata_date": datetime.datetime(2018, 9, 17, 9, 48, 9), 
+			"raw_screen_text": ['OConcept 2', 'PM4', 'ROWING', 'Total Time:', '23:01.4', 'ume meter', '1500m /m', '30:01.4', '8000 1:52.5 18', '15:03.1', '4000 1:52.8 18', '14:58.3', '4000 1:52.2 18', 'r59', 'CHANGE', 'CHANGE', 'MENU', 'UNITS', 'DISPLAY', 'BACK'],
+		},
+		"expected_output": {
+			"monitor_model": "PM4",
+			"date": "2018-09-17",
+			"session_name": "2x4000m/1:30r",
+			"total_time": "00:33:01.4",
+			"row_time": "00:30:01.4",
+			"meters": "8000",
+			"average_split": "1:52.5",
+			"average_rate": "18",
+			"intervals": [
+				{
+					"duration": "00:15:03.1",
+					"meters": 4000,
+					"split_time": "1:52.8",
+					"stroke_rate": 18,
+					"heart_rate": None
+				},
+				{
+					"duration": "00:14:58.3",
+					"meters": 4000,
+					"split_time": "1:52.2",
+					"stroke_rate": 18,
+					"heart_rate": None
+				}
+			]
+		}
+	}
 ]

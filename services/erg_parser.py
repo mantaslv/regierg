@@ -12,8 +12,9 @@ def serialize_erg_data(data):
 def parse_erg_data(data):
     session = ErgSession()
 
-    # Join the data into a single string
-    data_str = ' '.join(data)
+    metadata_date = data["metadata_date"]
+    raw_screen_text = data["raw_screen_text"]
+    data_str = ' '.join(raw_screen_text)
 
     data_seq = data_str
 
@@ -61,6 +62,9 @@ def parse_erg_data(data):
         except ValueError:
             print(f"Failed to parse date: {cleaned_date}")
         remove_matched_part(match.group(0))
+
+    if not session.date:
+        session.date = metadata_date
     
     # Total Time
     if is_interval_workout:
