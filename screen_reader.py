@@ -11,7 +11,7 @@ endpoint = 'https://debriefitai.cognitiveservices.azure.com/'
 
 computervision_client = ComputerVisionClient(endpoint, CognitiveServicesCredentials(key))
 
-read_response = computervision_client.read_in_stream(open("distance_intervals.jpeg", "rb"), raw=True)
+read_response = computervision_client.read_in_stream(open("low_light.jpeg", "rb"), raw=True)
 read_operation_location = read_response.headers["Operation-Location"]
 operation_id = read_operation_location.split("/")[-1]
 
