@@ -17,7 +17,7 @@ def string_to_time(time_str):
     minutes = time_str[:-5]
     seconds = time_str[-4:-2]
     milliseconds = time_str[-1]
-
+    
     minutes = int(minutes)
     seconds = int(seconds)
     milliseconds = int(float('0.' + milliseconds) * 1000000)

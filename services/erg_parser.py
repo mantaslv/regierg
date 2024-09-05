@@ -18,12 +18,12 @@ def parse_erg_data(data):
     data_str = ' '.join(raw_screen_text)
     data_seq = data_str
 
-    custom_interval_pattern = re.compile(r'(\.{3})')
+    custom_interval_pattern = re.compile(r'¥.*? Total Time:')
     monitor_model_pattern = re.compile(r'(PM\d)')
     date_pattern = re.compile(r'(\w+[.:]? \d{1,2}[.:]? \d{4})')
     time_pattern = re.compile(r'(\d+[:1]\d+[.,]\d+)')
     meters_pattern = re.compile(r'(\d+\.?\d*m?)')
-    rest_pattern = re.compile(r'([r7][1-9]?:[0-5][05])')
+    rest_pattern = re.compile(r'([Fr7][1-9]?[1:][0-5][0-9])')
     session_name_pattern = re.compile(r'(\d+x\d{1,4}m[/)]\d{1,2}:\d{2}r|\d{1,4}m|\d{1,2}:\d{2}|\d+x\d{1,2}:\d{2}/\d{1,2}:\d{2}r)')
     
     def remove_matched_part(match): # to process the string sequentially
@@ -44,6 +44,7 @@ def parse_erg_data(data):
     match = custom_interval_pattern.search(data_seq)
     if match:
         is_custom_interval_workout = True
+        print("this is a custom interval workout")
     else:
         match = session_name_pattern.search(data_seq.split(' ', 1)[0])
         if match:
@@ -147,10 +148,16 @@ def parse_erg_data(data):
                 remove_matched_part(match.group(0))
 
         if is_custom_interval_workout:
+            print(data_seq)
             match = rest_pattern.search(data_seq)
             print(match)
             if match:
-                cleaned_rest = clean_time_or_number("0" + match.group(0)[1:])
+                found_string = match.group(0)
+                print(found_string)
+                cleaned_rest = found_string[:-3] + ":" + found_string[-2:]
+                cleaned_rest = cleaned_rest[1:]
+                if len(cleaned_rest) == 3:
+                    cleaned_rest = "0" + cleaned_rest 
                 print(cleaned_rest)
                 rest = cleaned_rest
                 remove_matched_part(match.group(0))

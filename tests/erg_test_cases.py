@@ -401,7 +401,7 @@ test_cases = [
 		}
 	},
 	{
-		"input_data": {'metadata_date': datetime.datetime(2019, 12, 5, 17, 59, 41), 'raw_screen_text': ['Qconcept 2.', 'PM5', 'View Detail', '¥20:00/4106/112', 'Total Time:', 'Dee 05 2019', '44:11.0', 'lime meter 500m m ₩', '40:00.0 10666 1:52.5 17', '20100.0 5334 1:52.4 18 148', 'F4105', '10', '20:00.0', '5333 1:52.5 17 161', '20', 'Units', 'Display', 'Menu']},
+		"input_data": {'metadata_date': datetime.datetime(2019, 12, 5, 17, 59, 41), 'raw_screen_text': ['Qconcept 2.', 'PM5', 'View Detail', '¥20:00/4106/112', 'Total Time:', 'Dee 05 2019', '44:11.0', 'lime meter 500m m ₩', '40:00.0 10666 1:52.5 17', '20100.0 5334 1:52.4 18 148', 'F4106', '10', '20:00.0', '5333 1:52.5 17 161', 'r:05', '20', 'Units', 'Display', 'Menu']},
 		"expected_output" : {
 			"monitor_model": "PM5",
 			"date": "2019-12-05",
