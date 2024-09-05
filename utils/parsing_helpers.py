@@ -39,3 +39,16 @@ def correct_total_time_if_needed(total_time, row_time):
 
         return datetime.strptime(corrected_total_time_str, time_format).time()
     return total_time
+
+def remove_leading_zeros_from_time(time):
+    time_parts = time.split(':')
+
+    if time_parts[0] == "0" or time_parts[0] == "00":
+        time_parts.pop(0)
+        
+        if time_parts[0] == "00":
+            time_parts.pop(0)
+    
+    cleaned_time_parts = [str(int(part)) for part in time_parts]
+    cleaned_time_str = ':'.join(cleaned_time_parts)
+    return cleaned_time_str

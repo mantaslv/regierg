@@ -1,4 +1,4 @@
-from regierg.utils.parsing_helpers import clean_date, clean_time_or_number, string_to_time, correct_total_time_if_needed
+from regierg.utils.parsing_helpers import clean_date, clean_time_or_number, string_to_time, correct_total_time_if_needed, remove_leading_zeros_from_time
 from regierg.models.erg_session import ErgSession
 from datetime import datetime, time
 import json
@@ -197,16 +197,5 @@ def subtract_times(time1, time2):
     datetime2 = datetime.combine(datetime.today(), time2)
     return datetime1 - datetime2
 
-def remove_leading_zeros_from_time(time):
-    time_parts = time.split(':')
 
-    if time_parts[0] == "0" or time_parts[0] == "00":
-        time_parts.pop(0)
-        
-        if time_parts[0] == "00":
-            time_parts.pop(0)
-    
-    cleaned_time_parts = [str(int(part)) for part in time_parts]
-    cleaned_time_str = ':'.join(cleaned_time_parts)
-    return cleaned_time_str
 
