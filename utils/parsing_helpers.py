@@ -57,3 +57,26 @@ def subtract_times(time1, time2):
     datetime1 = datetime.combine(datetime.today(), time1)
     datetime2 = datetime.combine(datetime.today(), time2)
     return datetime1 - datetime2
+
+def generate_session_name_if_none(session):
+    if session.session_name is None:
+        number_of_intervals = len(session.intervals)
+
+        if session.total_time > session.row_time:
+            total_rest = subtract_times(session.total_time, session.row_time)
+            rest = remove_leading_zeros_from_time(str(total_rest / number_of_intervals))
+
+            if session.intervals[0]["duration"] == session.intervals[1]["duration"]:
+                interval = session.intervals[0]["duration"]
+            else:
+                interval = str(session.intervals[0]["meters"]) + "m"
+
+            session.session_name = f"{number_of_intervals}x{interval}/{rest}r"
+        else:
+            if session.intervals[-1]["meters"] / number_of_intervals == session.intervals[0]["meters"]:
+                session.session_name = f"{session.meters}m"
+            else:
+                session_name = remove_leading_zeros_from_time(str(session.row_time))
+                if len(session_name.split(":")[-1]) == 1:
+                    session_name += "0"
+                session.session_name = session_name

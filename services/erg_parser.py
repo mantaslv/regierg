@@ -1,5 +1,5 @@
 from regierg.utils.parsing_helpers import (
-    clean_date, clean_time_or_number, string_to_time, correct_total_time_if_needed, remove_leading_zeros_from_time, subtract_times
+    clean_date, clean_time_or_number, string_to_time, correct_total_time_if_needed, remove_leading_zeros_from_time, subtract_times, generate_session_name_if_none
 )
 from regierg.models.erg_session import ErgSession
 from datetime import datetime, time
@@ -169,27 +169,6 @@ def parse_erg_data(data):
 
     session.total_time = correct_total_time_if_needed(session.total_time, session.row_time)
     
+    generate_session_name_if_none(session)
 
-    if session.session_name is None:
-        number_of_intervals = len(session.intervals)
-
-        if session.total_time > session.row_time:
-            total_rest = subtract_times(session.total_time, session.row_time)
-            rest = remove_leading_zeros_from_time(str(total_rest / number_of_intervals))
-            interval = None
-            
-            if session.intervals[0]["duration"] == session.intervals[1]["duration"]:
-                interval = session.intervals[0]["duration"]
-            else:
-                interval = str(session.intervals[0]["meters"]) + "m"
-
-            session.session_name = f"{number_of_intervals}x{interval}/{rest}r"
-        else:
-            if session.intervals[-1]["meters"] / number_of_intervals == session.intervals[0]["meters"]:
-                session.session_name = session.meters + "m"
-            else:
-                session_name = remove_leading_zeros_from_time(str(session.row_time))
-                if len(session_name.split(":")[-1]) == 1:
-                    session_name += "0"
-                session.session_name = session_name
     return session
