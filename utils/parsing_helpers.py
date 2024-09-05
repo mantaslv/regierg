@@ -14,8 +14,10 @@ def clean_date(value):
     return cleaned_date
 
 def string_to_time(time_str):
-    minutes, seconds = time_str.split(':')
-    seconds, milliseconds = seconds.split('.')
+    minutes = time_str[:-5]
+    seconds = time_str[-4:-2]
+    milliseconds = time_str[-1]
+
     minutes = int(minutes)
     seconds = int(seconds)
     milliseconds = int(float('0.' + milliseconds) * 1000000)

@@ -399,5 +399,36 @@ test_cases = [
 				}
 			]
 		}
+	},
+	{
+		"input_data": {'metadata_date': datetime.datetime(2019, 12, 5, 17, 59, 41), 'raw_screen_text': ['Qconcept 2.', 'PM5', 'View Detail', '¥20:00/4106/112', 'Total Time:', 'Dee 05 2019', '44:11.0', 'lime meter 500m m ₩', '40:00.0 10666 1:52.5 17', '20100.0 5334 1:52.4 18 148', 'F4105', '10', '20:00.0', '5333 1:52.5 17 161', '20', 'Units', 'Display', 'Menu']},
+		"expected_output" : {
+			"monitor_model": "PM5",
+			"date": "2019-12-05",
+			"session_name": "20:00/4:06r/20:00",
+			"total_time": "00:44:11.0",
+			"row_time": "00:40:00.0",
+			"meters": "10666",
+			"average_split": "1:52.5",
+			"average_rate": "17",
+			"intervals": [
+				{
+					"duration": "00:20:00.0",
+					"meters": 5334,
+					"split_time": "1:52.4",
+					"stroke_rate": 18,
+					"heart_rate": 148,
+					"rest": "4:06"
+				},
+				{
+					"duration": "00:20:00.0",
+					"meters": 5333,
+					"split_time": "1:52.5",
+					"stroke_rate": 17,
+					"heart_rate": 161,
+					"rest": "0:05"
+				}
+			]
+		}
 	}
 ]

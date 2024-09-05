@@ -21,7 +21,7 @@ def parse_erg_data(data):
     custom_interval_pattern = re.compile(r'(\.{3})')
     monitor_model_pattern = re.compile(r'(PM\d)')
     date_pattern = re.compile(r'(\w+[.:]? \d{1,2}[.:]? \d{4})')
-    time_pattern = re.compile(r'(\d+:\d+[.,]\d+)')
+    time_pattern = re.compile(r'(\d+[:1]\d+[.,]\d+)')
     meters_pattern = re.compile(r'(\d+\.?\d*m?)')
     rest_pattern = re.compile(r'([r7][1-9]?:[0-5][05])')
     session_name_pattern = re.compile(r'(\d+x\d{1,4}m[/)]\d{1,2}:\d{2}r|\d{1,4}m|\d{1,2}:\d{2}|\d+x\d{1,2}:\d{2}/\d{1,2}:\d{2}r)')
