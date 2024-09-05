@@ -230,5 +230,62 @@ test_cases = [
 				}
 			]
 		}
+	},
+	{
+		"input_data": {'metadata_date': datetime.datetime(2022, 2, 16, 17, 30, 10), 'raw_screen_text': ['OXconcept 2', 'PM5', 'View Detail', '00000', '6x500m/1:30r', 'Total Time:', 'Feb 16 2022', '18:06.9', 'wtime meter', '1500m', '$9:06.9', '3000', '1:31.1 32', '1:31.9', '500', '1:31.9 33', '1:31.8', '500', '1:31.8 31', '1:31.4', '500', '1:31.4 32', '1:31.5', '500', '1:31.5 31', '1:30.9', '500', '1:30,9 32', '1:29.5', '500 1:29.5 34', ':1144', 'Units', 'Display', 'Menu']},
+		"expected_output": {
+			"monitor_model": "PM5",
+			"date": "2022-02-16",
+			"session_name": "6x500m/1:30r",
+			"total_time": "00:18:06.9",
+			"row_time": "00:09:06.9",
+			"meters": "3000",
+			"average_split": "1:31.1",
+			"average_rate": "32",
+			"intervals": [
+				{
+					"duration": "00:01:31.9",
+					"meters": 500,
+					"split_time": "1:31.9",
+					"stroke_rate": 33,
+					"heart_rate": None
+				},
+				{
+					"duration": "00:01:31.8",
+					"meters": 500,
+					"split_time": "1:31.8",
+					"stroke_rate": 31,
+					"heart_rate": None
+				},
+				{
+					"duration": "00:01:31.4",
+					"meters": 500,
+					"split_time": "1:31.4",
+					"stroke_rate": 32,
+					"heart_rate": None
+				},
+				{
+					"duration": "00:01:31.5",
+					"meters": 500,
+					"split_time": "1:31.5",
+					"stroke_rate": 31,
+					"heart_rate": None
+				},
+				{
+					"duration": "00:01:30.9",
+					"meters": 500,
+					"split_time": "1:30.9",
+					"stroke_rate": 32,
+					"heart_rate": None
+				},
+				{
+					"duration": "00:01:29.5",
+					"meters": 500,
+					"split_time": "1:29.5",
+					"stroke_rate": 34,
+					"heart_rate": None
+				},
+			]
+		}
 	}
 ]

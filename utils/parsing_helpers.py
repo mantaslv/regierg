@@ -3,6 +3,7 @@ from datetime import time
 
 def clean_time_or_number(value):
     # Remove trailing or leading dots or colons around numbers and time formats
+    value = value.replace(",", ".")
     return re.sub(r'^[.:]+|[.:]+$', '', value)
 
 def clean_date(value):

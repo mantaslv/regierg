@@ -21,7 +21,7 @@ def parse_erg_data(data):
     # Define the search patterns
     monitor_model_pattern = re.compile(r'(PM\d)')
     date_pattern = re.compile(r'(\w+[.:]? \d{1,2}[.:]? \d{4})')
-    time_pattern = re.compile(r'(\d+:\d+\.\d+)')
+    time_pattern = re.compile(r'(\d+:\d+[.,]\d+)')
     meters_pattern = re.compile(r'(\d+\.?\d*m?)')
     session_name_pattern = re.compile(r'(\d+x\d{1,4}m/\d{1,2}:\d{2}r|\d{1,4}m|\d{1,2}:\d{2}|\d+x\d{1,2}:\d{2}/\d{1,2}:\d{2}r)')
     
@@ -52,9 +52,9 @@ def parse_erg_data(data):
     is_interval_workout = False
 
     # Total Time Label
-    if 'Total Time:' in data_seq:
+    if 'Total Time' in data_seq:
         is_interval_workout = True
-        remove_matched_part('Total Time:')
+        remove_matched_part('Total Time')
     
     # Date
     match = date_pattern.search(data_seq)
@@ -152,7 +152,7 @@ def parse_erg_data(data):
             remove_matched_part(match.group(0))
 
         # Heart Rate
-        match = re.search(r'(?<![a-zA-Z])\b\d+\b', data_seq) # Check that no letter precedes the number which may indicate it is part of rest meters
+        match = re.search(r'(?<![a-zA-Z:])\b\d+\b', data_seq) # Check that no letter precedes the number which may indicate it is part of rest meters
         if match:
             # Check if the matched number is followed by a colon, indicating it might be part of a time
             next_part = data_seq[match.end():].strip()
