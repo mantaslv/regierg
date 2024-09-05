@@ -21,10 +21,12 @@ def parse_erg_data(data):
     data_seq = data_str
 
     # Define the search patterns
+    custom_interval_pattern = re.compile(r'(\.{3})')
     monitor_model_pattern = re.compile(r'(PM\d)')
     date_pattern = re.compile(r'(\w+[.:]? \d{1,2}[.:]? \d{4})')
     time_pattern = re.compile(r'(\d+:\d+[.,]\d+)')
     meters_pattern = re.compile(r'(\d+\.?\d*m?)')
+    rest_pattern = re.compile(r'([r7][1-9]?:[0-5][05])')
     session_name_pattern = re.compile(r'(\d+x\d{1,4}m[/)]\d{1,2}:\d{2}r|\d{1,4}m|\d{1,2}:\d{2}|\d+x\d{1,2}:\d{2}/\d{1,2}:\d{2}r)')
     
     # Process the string sequentially
@@ -43,13 +45,20 @@ def parse_erg_data(data):
     if 'Detail' in data_seq:
         remove_matched_part('Detail')
     
-    # Session Name
-    print(data_seq)
-    match = session_name_pattern.search(data_seq.split(' ', 1)[0])
-    print(match)
+    is_custom_interval_workout = False
+
+    match = custom_interval_pattern.search(data_seq)
     if match:
-        session.session_name = match.group(0).replace(")", "/").strip(':.')
-        remove_matched_part(match.group(0))
+        is_custom_interval_workout = True
+        print("this is a custom interval workout")
+    else:
+        # Session Name
+        print(data_seq)
+        match = session_name_pattern.search(data_seq.split(' ', 1)[0])
+        print(match)
+        if match:
+            session.session_name = match.group(0).replace(")", "/").strip(':.')
+            remove_matched_part(match.group(0))
     
     is_interval_workout = False
 
@@ -122,6 +131,9 @@ def parse_erg_data(data):
         split_time = None
         stroke_rate = None
         heart_rate = None
+        rest = None
+
+        print("\n", data_seq)
 
         # Duration
         match = time_pattern.search(data_seq)
@@ -163,12 +175,24 @@ def parse_erg_data(data):
                 heart_rate = int(cleaned_heart_rate)
                 remove_matched_part(match.group(0))
 
+        if is_custom_interval_workout:
+            match = rest_pattern.search(data_seq)
+            print(match)
+            if match:
+                cleaned_rest = clean_time_or_number("0" + match.group(0)[1:])
+                print(cleaned_rest)
+                rest = cleaned_rest
+                remove_matched_part(match.group(0))
 
         # Add the interval to the session
-        session.add_interval(duration, meters, split_time, stroke_rate, heart_rate)
+        session.add_interval(duration, meters, split_time, stroke_rate, heart_rate, rest)
 
     session.total_time = correct_total_time_if_needed(session.total_time, session.row_time)
-    
-    generate_session_name_if_none(session)
+
+    if is_custom_interval_workout:
+        if all(interval["rest"] == "0:00" for interval in session.intervals):
+            session.session_name = session.meters + "m"
+    else:
+        generate_session_name_if_none(session)
 
     return session

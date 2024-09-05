@@ -21,35 +21,40 @@ test_cases = [
 					"meters": 1627,
 					"split_time": "1:50.6",
 					"stroke_rate": 20,
-					"heart_rate": 150
+					"heart_rate": 150,
+					"rest": None
 				},
 				{
 					"duration": "00:06:00.0",
 					"meters": 1677,
 					"split_time": "1:47.3",
 					"stroke_rate": 21,
-					"heart_rate": 161
+					"heart_rate": 161,
+					"rest": None
 				},
 				{
 					"duration": "00:06:00.0",
 					"meters": 1736,
 					"split_time": "1:43.6",
 					"stroke_rate": 23,
-					"heart_rate": 169
+					"heart_rate": 169,
+					"rest": None
 				},
 				{
 					"duration": "00:06:00.0",
 					"meters": 1718,
 					"split_time": "1:44.7",
 					"stroke_rate": 22,
-					"heart_rate": 171
+					"heart_rate": 171,
+					"rest": None
 				},
 				{
 					"duration": "00:06:00.0",
 					"meters": 1723,
 					"split_time": "1:44.4",
 					"stroke_rate": 22,
-					"heart_rate": 180
+					"heart_rate": 180,
+					"rest": None
 				}
 			]
 		}
@@ -74,35 +79,40 @@ test_cases = [
 					"meters": 400,
 					"split_time": "1:32.5",
 					"stroke_rate": 33,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:01:18.7",
 					"meters": 800,
 					"split_time": "1:38.3",
 					"stroke_rate": 31,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:01:20.7",
 					"meters": 1200,
 					"split_time": "1:40.8",
 					"stroke_rate": 31,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:01:21.0",
 					"meters": 1600,
 					"split_time": "1:41.2",
 					"stroke_rate": 33,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:01:17.9",
 					"meters": 2000,
 					"split_time": "1:37.3",
 					"stroke_rate": 35,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				}
 			]
 		}
@@ -127,21 +137,24 @@ test_cases = [
 					"meters": 6000,
 					"split_time": "1:52.4",
 					"stroke_rate": 20,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:22:28.5",
 					"meters": 6000,
 					"split_time": "1:52.3",
 					"stroke_rate": 20,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:22:25.6",
 					"meters": 6000,
 					"split_time": "1:52.1",
 					"stroke_rate": 20,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				}
 			]
 		}
@@ -166,35 +179,40 @@ test_cases = [
 					"meters": 849,
 					"split_time": "1:46.0",
 					"stroke_rate": 20,
-					"heart_rate": 164
+					"heart_rate": 164,
+					"rest": None
 				},
 				{
 					"duration": "00:06:00.0",
 					"meters": 854,
 					"split_time": "1:45.3",
 					"stroke_rate": 20,
-					"heart_rate": 172
+					"heart_rate": 172,
+					"rest": None
 				},
 				{
 					"duration": "00:09:00.0",
 					"meters": 851,
 					"split_time": "1:45.7",
 					"stroke_rate": 20,
-					"heart_rate": 173
+					"heart_rate": 173,
+					"rest": None
 				},
 				{
 					"duration": "00:12:00.0",
 					"meters": 855,
 					"split_time": "1:45.2",
 					"stroke_rate": 20,
-					"heart_rate": 178
+					"heart_rate": 178,
+					"rest": None
 				},
 				{
 					"duration": "00:15:00.0",
 					"meters": 882,
 					"split_time": "1:42.0",
 					"stroke_rate": 21,
-					"heart_rate": 182
+					"heart_rate": 182,
+					"rest": None
 				}
 			]
 		}
@@ -219,14 +237,16 @@ test_cases = [
 					"meters": 4000,
 					"split_time": "1:52.8",
 					"stroke_rate": 18,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:14:58.3",
 					"meters": 4000,
 					"split_time": "1:52.2",
 					"stroke_rate": 18,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				}
 			]
 		}
@@ -248,42 +268,48 @@ test_cases = [
 					"meters": 500,
 					"split_time": "1:31.9",
 					"stroke_rate": 33,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:01:31.8",
 					"meters": 500,
 					"split_time": "1:31.8",
 					"stroke_rate": 31,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:01:31.4",
 					"meters": 500,
 					"split_time": "1:31.4",
 					"stroke_rate": 32,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:01:31.5",
 					"meters": 500,
 					"split_time": "1:31.5",
 					"stroke_rate": 31,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:01:30.9",
 					"meters": 500,
 					"split_time": "1:30.9",
 					"stroke_rate": 32,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:01:29.5",
 					"meters": 500,
 					"split_time": "1:29.5",
 					"stroke_rate": 34,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 			]
 		}
@@ -305,28 +331,71 @@ test_cases = [
 					"meters": 500,
 					"split_time": "1:38.8",
 					"stroke_rate": 32,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:01:38.2",
 					"meters": 500,
 					"split_time": "1:38.2",
 					"stroke_rate": 34,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:01:35.7",
 					"meters": 500,
 					"split_time": "1:35.7",
 					"stroke_rate": 35,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
 				},
 				{
 					"duration": "00:01:30.5",
 					"meters": 500,
 					"split_time": "1:30.5",
 					"stroke_rate": 34,
-					"heart_rate": None
+					"heart_rate": None,
+					"rest": None
+				}
+			]
+		}
+	},
+	{
+		"input_data": {'metadata_date': datetime.datetime(2019, 1, 3, 22, 19, 27), 'raw_screen_text': ['Ofconcept 2', 'PM5', 'View Detall', '¥3000m ... 3', 'Total Time:', 'Jan 03 2019', '17:05.3', 'time meter /500m', '17:05.3 5000 1:42.5 26', '10:19.0', '3000 1:43.1 24', '7:00', '0', '5:08.3', '1500 1:42.7 25', '7:00', '1:38.1', '500 1:38.1 29', '7:00', '0', 'Units', 'Display', 'Menu']},
+		"expected_output": {
+			"monitor_model": "PM5",
+			"date": "2019-01-03",
+			"session_name": "5000m",
+			"total_time": "00:17:05.3",
+			"row_time": "00:17:05.3",
+			"meters": "5000",
+			"average_split": "1:42.5",
+			"average_rate": "26",
+			"intervals": [
+				{
+					"duration": "00:10:19.0",
+					"meters": 3000,
+					"split_time": "1:43.1",
+					"stroke_rate": 24,
+					"heart_rate": None,
+					"rest": "0:00"
+				},
+				{
+					"duration": "00:05:08.3",
+					"meters": 1500,
+					"split_time": "1:42.7",
+					"stroke_rate": 25,
+					"heart_rate": None,
+					"rest": "0:00"
+				},
+				{
+					"duration": "00:01:38.1",
+					"meters": 500,
+					"split_time": "1:38.1",
+					"stroke_rate": 29,
+					"heart_rate": None,
+					"rest": "0:00"
 				}
 			]
 		}

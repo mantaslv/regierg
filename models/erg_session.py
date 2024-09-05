@@ -13,13 +13,14 @@ class ErgSession:
         self.average_rate = None
         self.intervals = []
     
-    def add_interval(self, duration, meters, split_time, stroke_rate, heart_rate=None):
+    def add_interval(self, duration, meters, split_time, stroke_rate, heart_rate=None, rest=None):
         self.intervals.append({
             "duration": duration,
             "meters": meters,
             "split_time": split_time,
             "stroke_rate": stroke_rate,
-            "heart_rate": heart_rate
+            "heart_rate": heart_rate,
+            "rest": rest
         })
     
     def format_time_with_decimal(self, time_value):
@@ -43,7 +44,8 @@ class ErgSession:
                     "meters": interval["meters"],
                     "split_time": interval["split_time"],
                     "stroke_rate": interval["stroke_rate"],
-                    "heart_rate": interval["heart_rate"]
+                    "heart_rate": interval["heart_rate"],
+                    "rest": interval["rest"]
                 } for interval in self.intervals
             ]
         }, indent=4)
