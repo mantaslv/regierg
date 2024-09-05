@@ -40,10 +40,13 @@ def parse_erg_data(data):
         remove_matched_part('Detail')
     
     is_custom_interval_workout = False
+    is_distance_custom_interval = False
 
     match = custom_interval_pattern.search(data_seq)
     if match:
         is_custom_interval_workout = True
+        if "m" in match.group(0):
+            is_distance_custom_interval = True
         print("this is a custom interval workout")
     else:
         match = session_name_pattern.search(data_seq.split(' ', 1)[0])
@@ -148,17 +151,13 @@ def parse_erg_data(data):
                 remove_matched_part(match.group(0))
 
         if is_custom_interval_workout:
-            print(data_seq)
             match = rest_pattern.search(data_seq)
-            print(match)
             if match:
                 found_string = match.group(0)
-                print(found_string)
                 cleaned_rest = found_string[:-3] + ":" + found_string[-2:]
                 cleaned_rest = cleaned_rest[1:]
                 if len(cleaned_rest) == 3:
                     cleaned_rest = "0" + cleaned_rest 
-                print(cleaned_rest)
                 rest = cleaned_rest
                 remove_matched_part(match.group(0))
 
@@ -169,6 +168,13 @@ def parse_erg_data(data):
     if is_custom_interval_workout:
         if all(interval["rest"] == "0:00" for interval in session.intervals):
             session.session_name = session.meters + "m"
+        else:
+            session_name = []
+            for interval in session.intervals:
+                session_name.append(remove_leading_zeros_from_time(str(interval["duration"])))
+                session_name.append(str(interval["rest"]) + "r")
+            session_name.pop()
+            session.session_name = "/".join(session_name)
     else:
         generate_session_name_if_none(session)
 

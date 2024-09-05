@@ -17,7 +17,7 @@ def string_to_time(time_str):
     minutes = time_str[:-5]
     seconds = time_str[-4:-2]
     milliseconds = time_str[-1]
-    
+
     minutes = int(minutes)
     seconds = int(seconds)
     milliseconds = int(float('0.' + milliseconds) * 1000000)
@@ -47,12 +47,16 @@ def remove_leading_zeros_from_time(time):
 
     if time_parts[0] == "0" or time_parts[0] == "00":
         time_parts.pop(0)
+        print(time_parts)
         
         if time_parts[0] == "00":
             time_parts.pop(0)
     
     cleaned_time_parts = [str(int(part)) for part in time_parts]
     cleaned_time_str = ':'.join(cleaned_time_parts)
+    if cleaned_time_str[-2] == ":":
+        cleaned_time_str += "0"
+        
     return cleaned_time_str
 
 def subtract_times(time1, time2):
