@@ -287,5 +287,48 @@ test_cases = [
 				},
 			]
 		}
+	},
+	{
+		"input_data": {'metadata_date': datetime.datetime(2018, 6, 17, 16, 15, 24), 'raw_screen_text': ['YEAH MOLESEY', 'PM5', 'View Detail', '4x500m)1:00r', 'Total Time:', 'Jun 16 2018', '10:23.2', 'time meter 1500m /m', '6:23.2 2000 1:35.8 33', '1:38.8', '500 1:38.8 32', '1:38.2', '500 1:38.2 34', '1:35.7', '500 1:35.7 35', '1:30,5', '500 1:30.5 34', 'r323', 'Units', 'Display', 'Menu']},
+		"expected_output": {
+			"monitor_model": "PM5",
+			"date": "2018-06-16",
+			"session_name": "4x500m/1:00r",
+			"total_time": "00:10:23.2",
+			"row_time": "00:06:23.2",
+			"meters": "2000",
+			"average_split": "1:35.8",
+			"average_rate": "33",
+			"intervals": [
+				{
+					"duration": "00:01:38.8",
+					"meters": 500,
+					"split_time": "1:38.8",
+					"stroke_rate": 32,
+					"heart_rate": None
+				},
+				{
+					"duration": "00:01:38.2",
+					"meters": 500,
+					"split_time": "1:38.2",
+					"stroke_rate": 34,
+					"heart_rate": None
+				},
+				{
+					"duration": "00:01:35.7",
+					"meters": 500,
+					"split_time": "1:35.7",
+					"stroke_rate": 35,
+					"heart_rate": None
+				},
+				{
+					"duration": "00:01:30.5",
+					"meters": 500,
+					"split_time": "1:30.5",
+					"stroke_rate": 34,
+					"heart_rate": None
+				}
+			]
+		}
 	}
 ]

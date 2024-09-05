@@ -25,7 +25,7 @@ def parse_erg_data(data):
     date_pattern = re.compile(r'(\w+[.:]? \d{1,2}[.:]? \d{4})')
     time_pattern = re.compile(r'(\d+:\d+[.,]\d+)')
     meters_pattern = re.compile(r'(\d+\.?\d*m?)')
-    session_name_pattern = re.compile(r'(\d+x\d{1,4}m/\d{1,2}:\d{2}r|\d{1,4}m|\d{1,2}:\d{2}|\d+x\d{1,2}:\d{2}/\d{1,2}:\d{2}r)')
+    session_name_pattern = re.compile(r'(\d+x\d{1,4}m[/)]\d{1,2}:\d{2}r|\d{1,4}m|\d{1,2}:\d{2}|\d+x\d{1,2}:\d{2}/\d{1,2}:\d{2}r)')
     
     # Process the string sequentially
     def remove_matched_part(match):
@@ -48,7 +48,7 @@ def parse_erg_data(data):
     match = session_name_pattern.search(data_seq.split(' ', 1)[0])
     print(match)
     if match:
-        session.session_name = match.group(0).strip(':.')
+        session.session_name = match.group(0).replace(")", "/").strip(':.')
         remove_matched_part(match.group(0))
     
     is_interval_workout = False
