@@ -10,6 +10,6 @@ def get_image_date(image_path):
 		else:
 			return "Date not available in EXIF data"
 
-image_path = 'screen_images/test5.jpg'
-all_metadata = get_image_date(image_path)
-print(all_metadata)
+# image_path = 'screen_images/test5.jpeg'
+# all_metadata = get_image_date(image_path)
+# print(all_metadata)
