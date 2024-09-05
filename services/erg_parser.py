@@ -1,4 +1,4 @@
-from regierg.utils.parsing_helpers import clean_date, clean_time_or_number, string_to_time
+from regierg.utils.parsing_helpers import clean_date, clean_time_or_number, string_to_time, correct_total_time_if_needed
 from regierg.models.erg_session import ErgSession
 from datetime import datetime, time
 import json
@@ -165,21 +165,8 @@ def parse_erg_data(data):
         # Add the interval to the session
         session.add_interval(duration, meters, split_time, stroke_rate, heart_rate)
 
-    time_format = "%H:%M:%S.%f"
-
-    if session.total_time is not None and session.total_time < session.row_time:
-        incorrect_total_time_str = session.total_time.strftime(time_format)
-        row_time_str = session.row_time.strftime(time_format)
-
-        incorrect_total_time_list = list(incorrect_total_time_str)
-
-        for index, char in enumerate(incorrect_total_time_list):
-            if char == "2" and row_time_str[index] == "3":
-                incorrect_total_time_list[index] = "3" 
-
-        corrected_total_time_str = ''.join(incorrect_total_time_list)
-
-        session.total_time = datetime.strptime(corrected_total_time_str, time_format).time()
+    session.total_time = correct_total_time_if_needed(session.total_time, session.row_time)
+    
 
     if session.session_name is None:
         number_of_intervals = len(session.intervals)
@@ -222,3 +209,4 @@ def remove_leading_zeros_from_time(time):
     cleaned_time_parts = [str(int(part)) for part in time_parts]
     cleaned_time_str = ':'.join(cleaned_time_parts)
     return cleaned_time_str
+
