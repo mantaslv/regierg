@@ -1,4 +1,6 @@
-from regierg.utils.parsing_helpers import clean_date, clean_time_or_number, string_to_time, correct_total_time_if_needed, remove_leading_zeros_from_time
+from regierg.utils.parsing_helpers import (
+    clean_date, clean_time_or_number, string_to_time, correct_total_time_if_needed, remove_leading_zeros_from_time, subtract_times
+)
 from regierg.models.erg_session import ErgSession
 from datetime import datetime, time
 import json
@@ -191,11 +193,3 @@ def parse_erg_data(data):
                     session_name += "0"
                 session.session_name = session_name
     return session
-
-def subtract_times(time1, time2):
-    datetime1 = datetime.combine(datetime.today(), time1)
-    datetime2 = datetime.combine(datetime.today(), time2)
-    return datetime1 - datetime2
-
-
-

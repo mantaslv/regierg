@@ -52,3 +52,8 @@ def remove_leading_zeros_from_time(time):
     cleaned_time_parts = [str(int(part)) for part in time_parts]
     cleaned_time_str = ':'.join(cleaned_time_parts)
     return cleaned_time_str
+
+def subtract_times(time1, time2):
+    datetime1 = datetime.combine(datetime.today(), time1)
+    datetime2 = datetime.combine(datetime.today(), time2)
+    return datetime1 - datetime2
