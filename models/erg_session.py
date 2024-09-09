@@ -26,6 +26,7 @@ class ErgSession:
     def format_time_with_decimal(self, time_value):
         if time_value is None:
             return None
+        print(time_value, type(time_value))
         return time_value.strftime('%H:%M:%S.') + f'{time_value.microsecond / 1_000_000:.1f}'[2:]
 
     def to_json(self):
