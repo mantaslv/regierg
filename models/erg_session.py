@@ -13,20 +13,19 @@ class ErgSession:
         self.average_rate = None
         self.intervals = []
     
-    def add_interval(self, duration, meters, split_time, stroke_rate, heart_rate=None, rest=None):
+    def add_interval(self, interval):
         self.intervals.append({
-            "duration": duration,
-            "meters": meters,
-            "split_time": split_time,
-            "stroke_rate": stroke_rate,
-            "heart_rate": heart_rate,
-            "rest": rest
+            "duration": interval.duration,
+            "meters": interval.meters,
+            "split_time": interval.split_time,
+            "stroke_rate": interval.stroke_rate,
+            "heart_rate": interval.heart_rate,
+            "rest": interval.rest
         })
     
     def format_time_with_decimal(self, time_value):
         if time_value is None:
             return None
-        print(time_value, type(time_value))
         return time_value.strftime('%H:%M:%S.') + f'{time_value.microsecond / 1_000_000:.1f}'[2:]
 
     def to_json(self):
@@ -50,3 +49,15 @@ class ErgSession:
                 } for interval in self.intervals
             ]
         }, indent=4)
+
+class IntervalData:
+    def __init__(self, duration=None, meters=None, split_time=None, stroke_rate=None, heart_rate=None, rest=None):
+        self.duration = duration
+        self.meters = meters
+        self.split_time = split_time
+        self.stroke_rate = stroke_rate
+        self.heart_rate = heart_rate
+        self.rest = rest
+
+    def is_valid(self):
+        return self.duration is not None and self.meters is not None

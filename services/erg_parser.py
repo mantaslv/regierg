@@ -1,7 +1,7 @@
 from regierg.utils.parsing_helpers import (
     clean_date, clean_time_or_number, string_to_time, correct_total_time_if_needed, remove_leading_zeros_from_time, subtract_times, generate_session_name_if_none
 )
-from regierg.models.erg_session import ErgSession
+from regierg.models.erg_session import ErgSession, IntervalData
 from datetime import datetime, time
 import json
 import re
@@ -72,12 +72,10 @@ def parse_erg_data(data):
         if total_time_match:
             cleaned_time = clean_time_or_number(total_time_match)
             session.total_time = string_to_time(cleaned_time)
-            print(f"Total Time: {session.total_time} (type: {type(session.total_time)})")
 
     row_time_match = match_and_remove(TIME_PATTERN)
     if row_time_match:
         session.row_time = string_to_time(clean_time_or_number(row_time_match))
-        print(f"Row Time: {session.row_time} (type: {type(session.row_time)})")
     
     if not is_interval_workout:
         session.total_time = session.row_time
@@ -94,45 +92,44 @@ def parse_erg_data(data):
     average_rate_match = match_and_remove(RATE_PATTERN)
     if average_rate_match:
         session.average_rate = clean_time_or_number(average_rate_match)
+        
+    
 
-    while True:
-        duration = None
-        meters = None
-        split_time = None
-        stroke_rate = None
-        heart_rate = None
-        rest = None
+    def parse_interval():
+        nonlocal data_seq
+        interval = IntervalData()
 
-
+        print("\n", data_seq)
         duration_match = match_and_remove(TIME_PATTERN)
+        print(duration_match)
         if duration_match:
-            duration = string_to_time(clean_time_or_number(duration_match))
-        else:
-            break
+            interval.duration = string_to_time(clean_time_or_number(duration_match))
 
         match = match_and_remove(METERS_PATTERN)
         if match:
             cleaned_meters = clean_time_or_number(match).replace('m', '')
-            meters = int(cleaned_meters)
+            interval.meters = int(cleaned_meters)
 
         match = match_and_remove(TIME_PATTERN)
         if match:
             cleaned_split_time = clean_time_or_number(match)
-            split_time = cleaned_split_time
+            interval.split_time = cleaned_split_time
 
         match = match_and_remove(RATE_PATTERN)
         if match:
             cleaned_stroke_rate = clean_time_or_number(match)
-            stroke_rate = int(cleaned_stroke_rate)
+            interval.stroke_rate = int(cleaned_stroke_rate)
 
         # Check that no letter precedes the number which may indicate it is part of rest meters
+        print("\n", data_seq)
         match = re.search(r'(?<![a-zA-Z:])\b\d+\b', data_seq) 
+        print(match)
         if match:
             # Check if the matched number is followed by a colon, indicating it might be part of a time
             next_part = data_seq[match.end():].strip()
             if not next_part.startswith(':'):
                 cleaned_heart_rate = clean_time_or_number(match.group(0))
-                heart_rate = int(cleaned_heart_rate)
+                interval.heart_rate = int(cleaned_heart_rate)
                 remove_matched_part(match)
 
         if is_custom_interval_workout:
@@ -142,9 +139,16 @@ def parse_erg_data(data):
                 cleaned_rest = cleaned_rest[1:]
                 if len(cleaned_rest) == 3:
                     cleaned_rest = "0" + cleaned_rest 
-                rest = cleaned_rest
+                interval.rest = cleaned_rest
 
-        session.add_interval(duration, meters, split_time, stroke_rate, heart_rate, rest)
+        return interval if interval.is_valid() else None
+
+    while True:
+        interval = parse_interval()
+
+        if not interval:
+            break
+        session.add_interval(interval)
 
     session.total_time = correct_total_time_if_needed(session.total_time, session.row_time)
 
