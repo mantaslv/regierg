@@ -33,11 +33,16 @@ def parse_erg_data(data):
         nonlocal data_seq
         data_seq = data_seq[match_object.end():].strip()
     
-    def match_and_remove(pattern):
+    def match_and_remove(pattern, *cleaners):
         match = pattern.search(data_seq)
         if match:
+            matched_text = match.group(0)
+
+            for cleaner in cleaners:
+                matched_text = cleaner(matched_text)
+
             remove_matched_part(match)
-            return match.group(0)
+            return matched_text
         return None
 
     is_interval_workout = False
@@ -68,14 +73,9 @@ def parse_erg_data(data):
         session.date = metadata_date
     
     if is_interval_workout:
-        total_time_match = match_and_remove(TIME_PATTERN)
-        if total_time_match:
-            cleaned_time = clean_time_or_number(total_time_match)
-            session.total_time = string_to_time(cleaned_time)
+        session.total_time = match_and_remove(TIME_PATTERN, clean_time_or_number, string_to_time)
 
-    row_time_match = match_and_remove(TIME_PATTERN)
-    if row_time_match:
-        session.row_time = string_to_time(clean_time_or_number(row_time_match))
+    session.row_time = match_and_remove(TIME_PATTERN, clean_time_or_number, string_to_time)
     
     if not is_interval_workout:
         session.total_time = session.row_time
@@ -93,15 +93,11 @@ def parse_erg_data(data):
     if average_rate_match:
         session.average_rate = clean_time_or_number(average_rate_match)
         
-    
-
     def parse_interval():
         nonlocal data_seq
         interval = IntervalData()
 
-        print("\n", data_seq)
         duration_match = match_and_remove(TIME_PATTERN)
-        print(duration_match)
         if duration_match:
             interval.duration = string_to_time(clean_time_or_number(duration_match))
 
