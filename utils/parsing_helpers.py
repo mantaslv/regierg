@@ -60,18 +60,14 @@ def correct_total_time_if_needed(total_time, row_time):
 
 def remove_leading_zeros_from_time(time):
     time_parts = time.split(':')
-
     if time_parts[0] == "0" or time_parts[0] == "00":
-        time_parts.pop(0)
-        print(time_parts)
-        
+        time_parts.pop(0)        
         if time_parts[0] == "00":
             time_parts.pop(0)
     
-    cleaned_time_parts = [str(int(part)) for part in time_parts]
-    cleaned_time_str = ':'.join(cleaned_time_parts)
-    if cleaned_time_str[-2] == ":":
-        cleaned_time_str += "0"
+    cleaned_time_str = ':'.join(time_parts)
+    if cleaned_time_str[0] == "0":
+        cleaned_time_str = cleaned_time_str[1:]
         
     return cleaned_time_str
 
@@ -108,7 +104,7 @@ def generate_custom_interval_session_name(session, is_distance_custom_interval):
     if all(interval["rest"] == "0:00" for interval in session.intervals):
         if is_distance_custom_interval:
             return str(session.meters) + "m"
-        return str(session.row_time)
+        return remove_leading_zeros_from_time(str(session.row_time))
     else:
         session_name = []
         for interval in session.intervals:

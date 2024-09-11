@@ -9,7 +9,7 @@ MONITOR_MODEL_PATTERN = re.compile(r'(PM\d)')
 DATE_PATTERN = re.compile(r'((Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[.:]? \d{1,2}[.:]? \d{4})')
 TIME_PATTERN = re.compile(r'(\d+[:1]\d+[.,]\d+)')
 METERS_PATTERN = re.compile(r'(\d{3,}\.?\d*m?)')
-REST_PATTERN = re.compile(r'([Fr7¥][1-9]?[1:][0-5][0-9])')
+REST_PATTERN = re.compile(r'([Fr7¥1][1-9]?[1:][0-5][0-9])')
 SESSION_NAME_PATTERN = re.compile(r'(\d+x\d{1,4}m[/)]\d{1,2}:\d{2}r|\d{1,4}m|\d{1,2}:\d{2}|\d+x\d{1,2}:\d{2}/\d{1,2}:\d{2}r)')
 VIEW_DETAIL_TITLE_PATTERN = re.compile(r'(Detail)')
 TOTAL_TIME_TITLE_PATTERN = re.compile(r'(Total Time)')
@@ -91,6 +91,8 @@ def parse_erg_data(data):
     def parse_interval():
         nonlocal data_seq
         interval = IntervalData()
+
+        print(data_seq)
 
         interval.duration = extract_clean_from_seq(TIME_PATTERN, clean_num_time, str_to_time)
         interval.meters = extract_clean_from_seq(METERS_PATTERN, clean_num_time, remove_m, int)

@@ -439,9 +439,9 @@ test_cases = [
 	},
 	{
 		"input_data": {
-			'metadata_date': datetime.datetime(2020, 2, 29, 18, 56, 40), 
+			'metadata_date': datetime.datetime(2020, 2, 29, 18, 56, 40), 																																											
 			'raw_screen_text': ['CIconcept 2', 'PM4', 'ROWING', 'View Detail', 'v6000m/2:35r .,, 3', 'Total Time:', 'Feb 29 2020', '48:37.7', 'time meter', '/500m /m', '45:17.7 12000', '1:53,2 18', '22:48.2', '6000 1:54.0 19', '¥2:35', '22:25.5', '23', '6000 1:52.1 18', '¥:45', '21', ':04.0', '0', '0', '¥:00', 'CH SE', 'CF', 'E']
-		},
+		},																																																										 # ^ remove 5 for test			
 		"expected_output": {
 			"monitor_model": "PM4",
 			"date": "2020-02-29",
@@ -467,6 +467,40 @@ test_cases = [
 					"stroke_rate": 18,
 					"heart_rate": None,
 					"rest": "0:45"
+				}
+			]
+		}
+	},
+	{
+		"input_data": {
+			'metadata_date': datetime.datetime(2020, 3, 2, 18, 56, 10), 
+			'raw_screen_text': ['Oconcept 2', 'PM4', 'ROWING', 'Wiew Detail', '¥7:00 .. 3', 'Total Time:', 'Mar 02 2020', '15:01.0', 'time meter', '1500m /m', '15:01.0', '4234 1:46.4 22', '7:00.0', '1878 1:51.8 20', '1:00', '0', '8:00.0', '2357', '1:41.8 24', '7:00', ':01.0', '¥:00 -', 'CHANGE', 'CHANGE', 'MENU', 'UNITS', 'DISPLAY', 'BACK', 'V']
+		},
+		"expected_output": {
+			"monitor_model": "PM4",
+			"date": "2020-03-02",
+			"session_name": "15:01",
+			"total_time": "00:15:01.0",
+			"row_time": "00:15:01.0",
+			"meters": 4234,
+			"average_split": "1:46.4",
+			"average_rate": 22,
+			"intervals": [
+				{
+					"duration": "00:07:00.0",
+					"meters": 1878,
+					"split_time": "1:51.8",
+					"stroke_rate": 20,
+					"heart_rate": None,
+					"rest": "0:00"
+				},
+				{
+					"duration": "00:08:00.0",
+					"meters": 2357,
+					"split_time": "1:41.8",
+					"stroke_rate": 24,
+					"heart_rate": None,
+					"rest": "0:00"
 				}
 			]
 		}
