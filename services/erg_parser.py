@@ -1,8 +1,6 @@
-from regierg.utils.parsing_helpers import (
-    clean_date, clean_time_or_number, string_to_time, correct_total_time_if_needed, remove_leading_zeros_from_time, subtract_times, generate_session_name_if_none
-)
+from regierg.utils.parsing_helpers import clean_date_str, clean_session_name, clean_rest, remove_m, str_to_date, clean_num_time, str_to_time, correct_total_time_if_needed, remove_leading_zeros_from_time, subtract_times, generate_custom_interval_session_name, generate_session_name_if_none
 from regierg.models.erg_session import ErgSession, IntervalData
-from datetime import datetime, time
+from datetime import datetime
 import json
 import re
 
@@ -16,6 +14,7 @@ SESSION_NAME_PATTERN = re.compile(r'(\d+x\d{1,4}m[/)]\d{1,2}:\d{2}r|\d{1,4}m|\d{
 VIEW_DETAIL_TITLE_PATTERN = re.compile(r'(Detail)')
 TOTAL_TIME_TITLE_PATTERN = re.compile(r'(Total Time)')
 RATE_PATTERN = re.compile(r'(\d+)')
+INTERVAL_HR_PATTERN = re.compile(r'((?<![a-zA-Z:])\b\d+\b)')
 
 def serialize_erg_data(data):
     session = parse_erg_data(data)
@@ -29,136 +28,93 @@ def parse_erg_data(data):
     data_str = ' '.join(raw_screen_text)
     data_seq = data_str
 
-    def remove_matched_part(match_object): # to process the string sequentially
+    def remove_matched_part(match_object):
         nonlocal data_seq
         data_seq = data_seq[match_object.end():].strip()
     
-    def match_and_remove(pattern, *cleaners):
-        match = pattern.search(data_seq)
+    def extract_clean_from_seq(pattern, *cleaners, search_first_part=False):
+        nonlocal data_seq
+        search_area = data_seq.split(' ', 1)[0] if search_first_part else data_seq
+        match = pattern.search(search_area)
         if match:
             matched_text = match.group(0)
 
             for cleaner in cleaners:
                 matched_text = cleaner(matched_text)
+                if matched_text is None:
+                    return None
 
             remove_matched_part(match)
             return matched_text
         return None
 
-    is_interval_workout = False
-    is_custom_interval_workout = False
-    is_distance_custom_interval = False
-
-    session.monitor_model = match_and_remove(MONITOR_MODEL_PATTERN)
-    match_and_remove(VIEW_DETAIL_TITLE_PATTERN)
+    # Extract monitor model and other basic data
+    session.monitor_model = extract_clean_from_seq(MONITOR_MODEL_PATTERN)
+    extract_clean_from_seq(VIEW_DETAIL_TITLE_PATTERN)
     
+    # Custom interval workout check
     match = CUSTOM_INTERVAL_PATTERN.search(data_seq)
-    if match:
-        is_custom_interval_workout = True
-        if "m" in match.group(0):
-            is_distance_custom_interval = True
-    else:
-        match = SESSION_NAME_PATTERN.search(data_seq.split(' ', 1)[0])
-        if match:
-            session.session_name = match.group(0).replace(")", "/").strip(':.')
+    is_custom_interval_workout = bool(match)
+    is_distance_custom_interval = "m" in match.group(0) if match else False
 
-    total_time_match = match_and_remove(TOTAL_TIME_TITLE_PATTERN)
-    if total_time_match:
-        is_interval_workout = True
+    # Standard session name if not custom interval
+    if not is_custom_interval_workout:
+        session.session_name = extract_clean_from_seq(SESSION_NAME_PATTERN, clean_session_name, search_first_part=True)
+
+    # Interval workout check
+    is_interval_workout = extract_clean_from_seq(TOTAL_TIME_TITLE_PATTERN) is not None
     
-    date_match = match_and_remove(DATE_PATTERN)
-    if date_match:
-        session.date = datetime.strptime(clean_date(date_match), '%b %d %Y')
-    else:
-        session.date = metadata_date
+    # Date handling
+    session.date = extract_clean_from_seq(DATE_PATTERN, clean_date_str, str_to_date) or metadata_date
     
+    # Time handling
     if is_interval_workout:
-        session.total_time = match_and_remove(TIME_PATTERN, clean_time_or_number, string_to_time)
+        session.total_time = extract_clean_from_seq(TIME_PATTERN, clean_num_time, str_to_time)
 
-    session.row_time = match_and_remove(TIME_PATTERN, clean_time_or_number, string_to_time)
+    session.row_time = extract_clean_from_seq(TIME_PATTERN, clean_num_time, str_to_time)
     
     if not is_interval_workout:
         session.total_time = session.row_time
 
-    meters_match = match_and_remove(METERS_PATTERN)
-    if meters_match:
-        cleaned_meters = clean_time_or_number(meters_match).replace('m', '')
-        session.meters = cleaned_meters
+    # Meters, split, and rate
+    session.meters = extract_clean_from_seq(METERS_PATTERN, clean_num_time, remove_m, int)
+    session.average_split = extract_clean_from_seq(TIME_PATTERN, clean_num_time)
+    session.average_rate = extract_clean_from_seq(RATE_PATTERN, clean_num_time, int)
 
-    average_split_match = match_and_remove(TIME_PATTERN)
-    if average_split_match:
-        session.average_split = clean_time_or_number(average_split_match)
-
-    average_rate_match = match_and_remove(RATE_PATTERN)
-    if average_rate_match:
-        session.average_rate = clean_time_or_number(average_rate_match)
+    def check_next_part_not_time(matched_text):
+        next_part = data_seq[data_seq.find(matched_text) + len(matched_text):].strip()
+        if next_part.startswith(':'):  
+            return None
+        return matched_text
         
     def parse_interval():
         nonlocal data_seq
         interval = IntervalData()
-
-        duration_match = match_and_remove(TIME_PATTERN)
-        if duration_match:
-            interval.duration = string_to_time(clean_time_or_number(duration_match))
-
-        match = match_and_remove(METERS_PATTERN)
-        if match:
-            cleaned_meters = clean_time_or_number(match).replace('m', '')
-            interval.meters = int(cleaned_meters)
-
-        match = match_and_remove(TIME_PATTERN)
-        if match:
-            cleaned_split_time = clean_time_or_number(match)
-            interval.split_time = cleaned_split_time
-
-        match = match_and_remove(RATE_PATTERN)
-        if match:
-            cleaned_stroke_rate = clean_time_or_number(match)
-            interval.stroke_rate = int(cleaned_stroke_rate)
-
-        # Check that no letter precedes the number which may indicate it is part of rest meters
-        print("\n", data_seq)
-        match = re.search(r'(?<![a-zA-Z:])\b\d+\b', data_seq) 
-        print(match)
-        if match:
-            # Check if the matched number is followed by a colon, indicating it might be part of a time
-            next_part = data_seq[match.end():].strip()
-            if not next_part.startswith(':'):
-                cleaned_heart_rate = clean_time_or_number(match.group(0))
-                interval.heart_rate = int(cleaned_heart_rate)
-                remove_matched_part(match)
-
+        
+        interval.duration = extract_clean_from_seq(TIME_PATTERN, clean_num_time, str_to_time)
+        interval.meters = extract_clean_from_seq(METERS_PATTERN, clean_num_time, remove_m, int)
+        interval.split_time = extract_clean_from_seq(TIME_PATTERN, clean_num_time)
+        interval.stroke_rate = extract_clean_from_seq(RATE_PATTERN, clean_num_time, int)
+        interval.heart_rate = extract_clean_from_seq(INTERVAL_HR_PATTERN, check_next_part_not_time, clean_num_time, int)
         if is_custom_interval_workout:
-            match = match_and_remove(REST_PATTERN)
-            if match:
-                cleaned_rest = match[:-3] + ":" + match[-2:]
-                cleaned_rest = cleaned_rest[1:]
-                if len(cleaned_rest) == 3:
-                    cleaned_rest = "0" + cleaned_rest 
-                interval.rest = cleaned_rest
+            interval.rest = extract_clean_from_seq(REST_PATTERN, clean_rest)
 
         return interval if interval.is_valid() else None
-
+    
+    # Parse intervals
     while True:
         interval = parse_interval()
-
         if not interval:
             break
         session.add_interval(interval)
 
+    # Correct total time if needed
     session.total_time = correct_total_time_if_needed(session.total_time, session.row_time)
 
+    # Generate session name
     if is_custom_interval_workout:
-        if all(interval["rest"] == "0:00" for interval in session.intervals):
-            session.session_name = session.meters + "m"
-        else:
-            session_name = []
-            for interval in session.intervals:
-                session_name.append(remove_leading_zeros_from_time(str(interval["duration"])))
-                session_name.append(str(interval["rest"]) + "r")
-            session_name.pop()
-            session.session_name = "/".join(session_name)
+        session.session_name = generate_custom_interval_session_name(session)
     else:
-        generate_session_name_if_none(session)
+        session.session_name = generate_session_name_if_none(session)
 
     return session

@@ -12,9 +12,9 @@ test_cases = [
 			"session_name": "5x6:00/2:00r",
 			"total_time": "00:40:00.0",
 			"row_time": "00:30:00.0",
-			"meters": "8482",
+			"meters": 8482,
 			"average_split": "1:46.1",
-			"average_rate": "21",
+			"average_rate": 21,
 			"intervals": [
 				{
 					"duration": "00:06:00.0",
@@ -70,9 +70,9 @@ test_cases = [
 			"session_name": "2000m",
 			"total_time": "00:06:32.3",
 			"row_time": "00:06:32.3",
-			"meters": "2000",
+			"meters": 2000,
 			"average_split": "1:38.0",
-			"average_rate": "32",
+			"average_rate": 32,
 			"intervals": [
 				{
 					"duration": "00:01:14.0",
@@ -128,9 +128,9 @@ test_cases = [
 			"session_name": "3x6000m/2:00r",
 			"total_time": "00:13:23.7",
 			"row_time": "00:07:23.7",
-			"meters": "18000",
+			"meters": 18000,
 			"average_split": "1:52.3",
-			"average_rate": "20",
+			"average_rate": 20,
 			"intervals": [
 				{
 					"duration": "00:22:29.6",
@@ -170,9 +170,9 @@ test_cases = [
 			"session_name": "15:00",
 			"total_time": "00:15:00.0",
 			"row_time": "00:15:00.0",
-			"meters": "4292",
+			"meters": 4292,
 			"average_split": "1:44.8",
-			"average_rate": "20",
+			"average_rate": 20,
 			"intervals": [
 				{
 					"duration": "00:03:00.0",
@@ -228,9 +228,9 @@ test_cases = [
 			"session_name": "2x4000m/1:30r",
 			"total_time": "00:33:01.4",
 			"row_time": "00:30:01.4",
-			"meters": "8000",
+			"meters": 8000,
 			"average_split": "1:52.5",
-			"average_rate": "18",
+			"average_rate": 18,
 			"intervals": [
 				{
 					"duration": "00:15:03.1",
@@ -259,9 +259,9 @@ test_cases = [
 			"session_name": "6x500m/1:30r",
 			"total_time": "00:18:06.9",
 			"row_time": "00:09:06.9",
-			"meters": "3000",
+			"meters": 3000,
 			"average_split": "1:31.1",
-			"average_rate": "32",
+			"average_rate": 32,
 			"intervals": [
 				{
 					"duration": "00:01:31.9",
@@ -322,9 +322,9 @@ test_cases = [
 			"session_name": "4x500m/1:00r",
 			"total_time": "00:10:23.2",
 			"row_time": "00:06:23.2",
-			"meters": "2000",
+			"meters": 2000,
 			"average_split": "1:35.8",
-			"average_rate": "33",
+			"average_rate": 33,
 			"intervals": [
 				{
 					"duration": "00:01:38.8",
@@ -369,9 +369,9 @@ test_cases = [
 			"session_name": "5000m",
 			"total_time": "00:17:05.3",
 			"row_time": "00:17:05.3",
-			"meters": "5000",
+			"meters": 5000,
 			"average_split": "1:42.5",
-			"average_rate": "26",
+			"average_rate": 26,
 			"intervals": [
 				{
 					"duration": "00:10:19.0",
@@ -408,9 +408,9 @@ test_cases = [
 			"session_name": "20:00/4:06r/20:00",
 			"total_time": "00:44:11.0",
 			"row_time": "00:40:00.0",
-			"meters": "10666",
+			"meters": 10666,
 			"average_split": "1:52.5",
-			"average_rate": "17",
+			"average_rate": 17,
 			"intervals": [
 				{
 					"duration": "00:20:00.0",

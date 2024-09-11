@@ -1,19 +1,35 @@
 import re
 from datetime import time, datetime
 
-def clean_time_or_number(value):
+def clean_num_time(value):
     # Remove trailing or leading dots or colons around numbers and time formats
     value = value.replace(",", ".")
     return re.sub(r'^[.:]+|[.:]+$', '', value)
 
-def clean_date(value):
+def clean_date_str(value):
     # Remove leading/trailing dots or colons and clean each part of the date
     parts = value.split()
     cleaned_parts = [re.sub(r'^[.:]+|[.:]+$', '', part) for part in parts]
     cleaned_date = ' '.join(cleaned_parts)
     return cleaned_date
 
-def string_to_time(time_str):
+def str_to_date(value):
+    return datetime.strptime(value, '%b %d %Y')
+
+def remove_m(value):
+     return value.replace('m', '')
+
+def clean_rest(value):
+    rest = value[:-3] + ":" + value[-2:]    # colon correction
+    rest = rest[1:]                         # remove rest indication letter
+    if len(rest) == 3:
+        rest = "0" + rest                   # add 0 before colon if required
+    return rest
+
+def clean_session_name(value):
+    return value.replace(")", "/").strip(':.')
+
+def str_to_time(time_str):
     minutes = time_str[:-5]
     seconds = time_str[-4:-2]
     milliseconds = time_str[-1]
@@ -77,12 +93,24 @@ def generate_session_name_if_none(session):
             else:
                 interval = str(session.intervals[0]["meters"]) + "m"
 
-            session.session_name = f"{number_of_intervals}x{interval}/{rest}r"
+            return f"{number_of_intervals}x{interval}/{rest}r"
         else:
             if session.intervals[-1]["meters"] / number_of_intervals == session.intervals[0]["meters"]:
-                session.session_name = f"{session.meters}m"
+                return f"{session.meters}m"
             else:
                 session_name = remove_leading_zeros_from_time(str(session.row_time))
                 if len(session_name.split(":")[-1]) == 1:
                     session_name += "0"
-                session.session_name = session_name
+                return session_name
+    return session.session_name
+        
+def generate_custom_interval_session_name(session):
+    if all(interval["rest"] == "0:00" for interval in session.intervals):
+            return str(session.meters) + "m"
+    else:
+        session_name = []
+        for interval in session.intervals:
+            session_name.append(remove_leading_zeros_from_time(str(interval["duration"])))
+            session_name.append(str(interval["rest"]) + "r")
+        session_name.pop()
+        return "/".join(session_name)
