@@ -252,7 +252,10 @@ test_cases = [
 		}
 	},
 	{
-		"input_data": {'metadata_date': datetime.datetime(2022, 2, 16, 17, 30, 10), 'raw_screen_text': ['OXconcept 2', 'PM5', 'View Detail', '00000', '6x500m/1:30r', 'Total Time:', 'Feb 16 2022', '18:06.9', 'wtime meter', '1500m', '$9:06.9', '3000', '1:31.1 32', '1:31.9', '500', '1:31.9 33', '1:31.8', '500', '1:31.8 31', '1:31.4', '500', '1:31.4 32', '1:31.5', '500', '1:31.5 31', '1:30.9', '500', '1:30,9 32', '1:29.5', '500 1:29.5 34', ':1144', 'Units', 'Display', 'Menu']},
+		"input_data": {
+			'metadata_date': datetime.datetime(2022, 2, 16, 17, 30, 10), 
+			'raw_screen_text': ['OXconcept 2', 'PM5', 'View Detail', '00000', '6x500m/1:30r', 'Total Time:', 'Feb 16 2022', '18:06.9', 'wtime meter', '1500m', '$9:06.9', '3000', '1:31.1 32', '1:31.9', '500', '1:31.9 33', '1:31.8', '500', '1:31.8 31', '1:31.4', '500', '1:31.4 32', '1:31.5', '500', '1:31.5 31', '1:30.9', '500', '1:30,9 32', '1:29.5', '500 1:29.5 34', ':1144', 'Units', 'Display', 'Menu']
+		},
 		"expected_output": {
 			"monitor_model": "PM5",
 			"date": "2022-02-16",
@@ -315,7 +318,10 @@ test_cases = [
 		}
 	},
 	{
-		"input_data": {'metadata_date': datetime.datetime(2018, 6, 17, 16, 15, 24), 'raw_screen_text': ['YEAH MOLESEY', 'PM5', 'View Detail', '4x500m)1:00r', 'Total Time:', 'Jun 16 2018', '10:23.2', 'time meter 1500m /m', '6:23.2 2000 1:35.8 33', '1:38.8', '500 1:38.8 32', '1:38.2', '500 1:38.2 34', '1:35.7', '500 1:35.7 35', '1:30,5', '500 1:30.5 34', 'r323', 'Units', 'Display', 'Menu']},
+		"input_data": {
+			'metadata_date': datetime.datetime(2018, 6, 17, 16, 15, 24), 
+			'raw_screen_text': ['YEAH MOLESEY', 'PM5', 'View Detail', '4x500m)1:00r', 'Total Time:', 'Jun 16 2018', '10:23.2', 'time meter 1500m /m', '6:23.2 2000 1:35.8 33', '1:38.8', '500 1:38.8 32', '1:38.2', '500 1:38.2 34', '1:35.7', '500 1:35.7 35', '1:30,5', '500 1:30.5 34', 'r323', 'Units', 'Display', 'Menu']
+		},
 		"expected_output": {
 			"monitor_model": "PM5",
 			"date": "2018-06-16",
@@ -427,6 +433,40 @@ test_cases = [
 					"stroke_rate": 17,
 					"heart_rate": 161,
 					"rest": "0:05"
+				}
+			]
+		}
+	},
+	{
+		"input_data": {
+			'metadata_date': datetime.datetime(2020, 2, 29, 18, 56, 40), 
+			'raw_screen_text': ['CIconcept 2', 'PM4', 'ROWING', 'View Detail', 'v6000m/2:35r .,, 3', 'Total Time:', 'Feb 29 2020', '48:37.7', 'time meter', '/500m /m', '45:17.7 12000', '1:53,2 18', '22:48.2', '6000 1:54.0 19', '¥2:35', '22:25.5', '23', '6000 1:52.1 18', '¥:45', '21', ':04.0', '0', '0', '¥:00', 'CH SE', 'CF', 'E']
+		},
+		"expected_output": {
+			"monitor_model": "PM4",
+			"date": "2020-02-29",
+			"session_name": '6000m/2:35r/6000m',
+			"total_time": "00:48:37.7",
+			"row_time": "00:45:17.7",
+			"meters": 12000,
+			"average_split": "1:53.2",
+			"average_rate": 18,
+			"intervals": [
+				{
+					"duration": "00:22:48.2",
+					"meters": 6000,
+					"split_time": "1:54.0",
+					"stroke_rate": 19,
+					"heart_rate": None,
+					"rest": "2:35"
+				},
+				{
+					"duration": "00:22:25.5",
+					"meters": 6000,
+					"split_time": "1:52.1",
+					"stroke_rate": 18,
+					"heart_rate": None,
+					"rest": "0:45"
 				}
 			]
 		}

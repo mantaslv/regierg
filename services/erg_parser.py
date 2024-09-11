@@ -4,12 +4,12 @@ from datetime import datetime
 import json
 import re
 
-CUSTOM_INTERVAL_PATTERN = re.compile(r'¥.*? Total Time:')
+CUSTOM_INTERVAL_PATTERN = re.compile(r'[¥v].*? Total Time:')
 MONITOR_MODEL_PATTERN = re.compile(r'(PM\d)')
 DATE_PATTERN = re.compile(r'((Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[.:]? \d{1,2}[.:]? \d{4})')
 TIME_PATTERN = re.compile(r'(\d+[:1]\d+[.,]\d+)')
-METERS_PATTERN = re.compile(r'(\d+\.?\d*m?)')
-REST_PATTERN = re.compile(r'([Fr7][1-9]?[1:][0-5][0-9])')
+METERS_PATTERN = re.compile(r'(\d{3,}\.?\d*m?)')
+REST_PATTERN = re.compile(r'([Fr7¥][1-9]?[1:][0-5][0-9])')
 SESSION_NAME_PATTERN = re.compile(r'(\d+x\d{1,4}m[/)]\d{1,2}:\d{2}r|\d{1,4}m|\d{1,2}:\d{2}|\d+x\d{1,2}:\d{2}/\d{1,2}:\d{2}r)')
 VIEW_DETAIL_TITLE_PATTERN = re.compile(r'(Detail)')
 TOTAL_TIME_TITLE_PATTERN = re.compile(r'(Total Time)')
@@ -59,6 +59,7 @@ def parse_erg_data(data):
 
     # Standard session name if not custom interval
     if not is_custom_interval_workout:
+        print("is not custom interval")
         session.session_name = extract_clean_from_seq(SESSION_NAME_PATTERN, clean_session_name, search_first_part=True)
 
     # Interval workout check
@@ -96,7 +97,7 @@ def parse_erg_data(data):
         interval.split_time = extract_clean_from_seq(TIME_PATTERN, clean_num_time)
         interval.stroke_rate = extract_clean_from_seq(RATE_PATTERN, clean_num_time, int)
         interval.heart_rate = extract_clean_from_seq(INTERVAL_HR_PATTERN, check_next_part_not_time, clean_num_time, int)
-        if is_custom_interval_workout:
+        if is_custom_interval_workout:            
             interval.rest = extract_clean_from_seq(REST_PATTERN, clean_rest)
 
         return interval if interval.is_valid() else None
