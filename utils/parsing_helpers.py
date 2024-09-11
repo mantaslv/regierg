@@ -104,13 +104,18 @@ def generate_session_name_if_none(session):
                 return session_name
     return session.session_name
         
-def generate_custom_interval_session_name(session):
+def generate_custom_interval_session_name(session, is_distance_custom_interval):
     if all(interval["rest"] == "0:00" for interval in session.intervals):
+        if is_distance_custom_interval:
             return str(session.meters) + "m"
+        return str(session.row_time)
     else:
         session_name = []
         for interval in session.intervals:
-            session_name.append(remove_leading_zeros_from_time(str(interval["duration"])))
+            if is_distance_custom_interval:
+                session_name.append(str(interval["meters"]) + "m")
+            else:
+                session_name.append(remove_leading_zeros_from_time(str(interval["duration"])))
             session_name.append(str(interval["rest"]) + "r")
         session_name.pop()
         return "/".join(session_name)

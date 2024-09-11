@@ -55,7 +55,7 @@ def parse_erg_data(data):
     # Custom interval workout check
     match = CUSTOM_INTERVAL_PATTERN.search(data_seq)
     is_custom_interval_workout = bool(match)
-    is_distance_custom_interval = "m" in match.group(0) if match else False
+    is_distance_custom_interval = "m" in match.group(0)[:-3] if match else False
 
     # Standard session name if not custom interval
     if not is_custom_interval_workout:
@@ -90,7 +90,7 @@ def parse_erg_data(data):
     def parse_interval():
         nonlocal data_seq
         interval = IntervalData()
-        
+
         interval.duration = extract_clean_from_seq(TIME_PATTERN, clean_num_time, str_to_time)
         interval.meters = extract_clean_from_seq(METERS_PATTERN, clean_num_time, remove_m, int)
         interval.split_time = extract_clean_from_seq(TIME_PATTERN, clean_num_time)
@@ -113,7 +113,7 @@ def parse_erg_data(data):
 
     # Generate session name
     if is_custom_interval_workout:
-        session.session_name = generate_custom_interval_session_name(session)
+        session.session_name = generate_custom_interval_session_name(session, is_distance_custom_interval)
     else:
         session.session_name = generate_session_name_if_none(session)
 
