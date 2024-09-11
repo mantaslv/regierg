@@ -1,5 +1,6 @@
 from datetime import time
 import json
+from regierg.utils.parsing_helpers import remove_leading_zeros_from_time
 
 class ErgSession:
     def __init__(self):
@@ -26,6 +27,8 @@ class ErgSession:
     def format_time_with_decimal(self, time_value):
         if time_value is None:
             return None
+        if type(time_value) == str:
+            return time_value
         return time_value.strftime('%H:%M:%S.') + f'{time_value.microsecond / 1_000_000:.1f}'[2:]
 
     def to_json(self):
@@ -36,13 +39,13 @@ class ErgSession:
             "total_time": self.format_time_with_decimal(self.total_time),
             "row_time": self.format_time_with_decimal(self.row_time),
             "meters": self.meters,
-            "average_split": self.average_split,
+            "average_split": remove_leading_zeros_from_time(self.format_time_with_decimal(self.average_split)),
             "average_rate": self.average_rate,
             "intervals": [
                 {
                     "duration": self.format_time_with_decimal(interval["duration"]),
                     "meters": interval["meters"],
-                    "split_time": interval["split_time"],
+                    "split_time": remove_leading_zeros_from_time(self.format_time_with_decimal(interval["split_time"])),
                     "stroke_rate": interval["stroke_rate"],
                     "heart_rate": interval["heart_rate"],
                     "rest": interval["rest"]
@@ -60,4 +63,4 @@ class IntervalData:
         self.rest = rest
 
     def is_valid(self):
-        return self.duration is not None and self.meters is not None
+        return self.stroke_rate is not None and self.meters is not None

@@ -30,6 +30,9 @@ def clean_session_name(value):
     return value.replace(")", "/").strip(':.')
 
 def str_to_time(time_str):
+    if "." not in time_str:
+        return time_str
+
     minutes = time_str[:-5]
     seconds = time_str[-4:-2]
     milliseconds = time_str[-1]
@@ -57,6 +60,21 @@ def correct_total_time_if_needed(total_time, row_time):
 
         return datetime.strptime(corrected_total_time_str, time_format).time()
     return total_time
+
+def time_to_seconds(value):
+    hour_secs = value.hour * 3600 
+    minute_secs = value.minute * 60 
+    second_secs = value.second 
+    microsecond_secs = value.microsecond / 1_000_000
+    return sum([hour_secs, minute_secs, second_secs, microsecond_secs])
+
+def seconds_to_time(value):
+    hours = int(value // 3600)
+    remaining_seconds = value % 3600
+    minutes = int(remaining_seconds // 60)
+    seconds = int(remaining_seconds % 60)
+    microseconds = int((remaining_seconds % 1) * 1_000_000)
+    return time(hour=hours, minute=minutes, second=seconds, microsecond=microseconds)
 
 def remove_leading_zeros_from_time(time):
     time_parts = time.split(':')

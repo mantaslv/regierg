@@ -440,8 +440,43 @@ test_cases = [
 	{
 		"input_data": {
 			'metadata_date': datetime.datetime(2020, 2, 29, 18, 56, 40), 																																											
-			'raw_screen_text': ['CIconcept 2', 'PM4', 'ROWING', 'View Detail', 'v6000m/2:35r .,, 3', 'Total Time:', 'Feb 29 2020', '48:37.7', 'time meter', '/500m /m', '45:17.7 12000', '1:53,2 18', '22:48.2', '6000 1:54.0 19', '¥2:35', '22:25.5', '23', '6000 1:52.1 18', '¥:45', '21', ':04.0', '0', '0', '¥:00', 'CH SE', 'CF', 'E']
+			'raw_screen_text': ['CIconcept 2', 'PM4', 'ROWING', 'View Detail', 'v6000m/2:35r .,, 3', 'Total Time:', 'Feb 29 2020', '48:37.7', 'time meter', '/500m /m', '45:17.7 12000', '1:53,2 18', '22:48.2', '6000 1:54.0 19', '¥2:35', '22:25.', '23', '6000 1:52.1 18', '¥:45', '21', ':04.0', '0', '0', '¥:00', 'CH SE', 'CF', 'E']
 		},																																																										 # ^ remove 5 for test			
+		"expected_output": {
+			"monitor_model": "PM4",
+			"date": "2020-02-29",
+			"session_name": '6000m/2:35r/6000m',
+			"total_time": "00:48:37.7",
+			"row_time": "00:45:17.7",
+			"meters": 12000,
+			"average_split": "1:53.2",
+			"average_rate": 18,
+			"intervals": [
+				{
+					"duration": "00:22:48.2",
+					"meters": 6000,
+					"split_time": "1:54.0",
+					"stroke_rate": 19,
+					"heart_rate": None,
+					"rest": "2:35"
+				},
+				{
+					"duration": "00:22:25.2",
+					"meters": 6000,
+					"split_time": "1:52.1",
+					"stroke_rate": 18,
+					"heart_rate": None,
+					"rest": "0:45"
+				}
+			]
+		}
+	},
+	{
+		"input_data": {
+			'metadata_date': datetime.datetime(2020, 2, 29, 18, 56, 40), 
+			'raw_screen_text': ['(Iconcept 2', 'PM4', 'ROWING', 'View Detail', 'v6000m/2:35r ... 3', 'Total Time:', 'Feb 29 2020', '48:37,7', 'time meter', '/500m', 'S/m', '45:17.7 12000', '1:53.2 18', '22:48.2', '6000 1:54.0 19', '¥2:35', '23', '22:25.5', '6000', '1:52.1 18', 'r:45', '21', ':04.0', '0', '0', '1:00', 'CH GE', 'CH', 'E']
+		},	
+		# small image size "input_data" : {'metadata_date': datetime.datetime(2020, 2, 29, 18, 56, 40), 'raw_screen_text': ['(Iconcept 2', 'PM4', 'ROWING', 'View Detall', '¥6000m/2135r ... 3', 'Total Time:', 'Feb 29 2020', '48:37.7', 'time meter', '1500m /m', '45:17.7 12000 1:53.2 18', '22:48.2', '6000 1:54.0 19', '=2:35', '23', '22:25.5', '6000', '1:52.1 18', '21', '0', '0', '7:00', 'CT', 'C']},
 		"expected_output": {
 			"monitor_model": "PM4",
 			"date": "2020-02-29",

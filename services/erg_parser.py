@@ -1,15 +1,15 @@
-from regierg.utils.parsing_helpers import clean_date_str, clean_session_name, clean_rest, remove_m, str_to_date, clean_num_time, str_to_time, correct_total_time_if_needed, remove_leading_zeros_from_time, subtract_times, generate_custom_interval_session_name, generate_session_name_if_none
+from regierg.utils.parsing_helpers import time_to_seconds, seconds_to_time, clean_date_str, clean_session_name, clean_rest, remove_m, str_to_date, clean_num_time, str_to_time, correct_total_time_if_needed, remove_leading_zeros_from_time, subtract_times, generate_custom_interval_session_name, generate_session_name_if_none
 from regierg.models.erg_session import ErgSession, IntervalData
-from datetime import datetime
+from datetime import datetime, time
 import json
 import re
 
 CUSTOM_INTERVAL_PATTERN = re.compile(r'[¥v].*? Total Time:')
 MONITOR_MODEL_PATTERN = re.compile(r'(PM\d)')
 DATE_PATTERN = re.compile(r'((Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[.:]? \d{1,2}[.:]? \d{4})')
-TIME_PATTERN = re.compile(r'(\d+[:1]\d+[.,]\d+)')
+TIME_PATTERN = re.compile(r'(\d+[:1]\d+[.,]\d*)')
 METERS_PATTERN = re.compile(r'(\d{3,}\.?\d*m?)')
-REST_PATTERN = re.compile(r'([Fr7¥1][1-9]?[1:][0-5][0-9])')
+REST_PATTERN = re.compile(r'([Fr7¥1=][1-9]?[1:][0-5][0-9])')
 SESSION_NAME_PATTERN = re.compile(r'(\d+x\d{1,4}m[/)]\d{1,2}:\d{2}r|\d{1,4}m|\d{1,2}:\d{2}|\d+x\d{1,2}:\d{2}/\d{1,2}:\d{2}r)')
 VIEW_DETAIL_TITLE_PATTERN = re.compile(r'(Detail)')
 TOTAL_TIME_TITLE_PATTERN = re.compile(r'(Total Time)')
@@ -59,7 +59,6 @@ def parse_erg_data(data):
 
     # Standard session name if not custom interval
     if not is_custom_interval_workout:
-        print("is not custom interval")
         session.session_name = extract_clean_from_seq(SESSION_NAME_PATTERN, clean_session_name, search_first_part=True)
 
     # Interval workout check
@@ -92,15 +91,18 @@ def parse_erg_data(data):
         nonlocal data_seq
         interval = IntervalData()
 
-        print(data_seq)
-
         interval.duration = extract_clean_from_seq(TIME_PATTERN, clean_num_time, str_to_time)
         interval.meters = extract_clean_from_seq(METERS_PATTERN, clean_num_time, remove_m, int)
-        interval.split_time = extract_clean_from_seq(TIME_PATTERN, clean_num_time)
+        interval.split_time = extract_clean_from_seq(TIME_PATTERN, clean_num_time, str_to_time)
         interval.stroke_rate = extract_clean_from_seq(RATE_PATTERN, clean_num_time, int)
         interval.heart_rate = extract_clean_from_seq(INTERVAL_HR_PATTERN, check_next_part_not_time, clean_num_time, int)
         if is_custom_interval_workout:            
             interval.rest = extract_clean_from_seq(REST_PATTERN, clean_rest)
+
+        if type(interval.duration) == str and type(interval.meters) == int and type(interval.split_time) == time:
+            split_time_in_seconds = time_to_seconds(interval.split_time)
+            corrected_duration = interval.meters * split_time_in_seconds / 500
+            interval.duration = seconds_to_time(corrected_duration)
 
         return interval if interval.is_valid() else None
     
